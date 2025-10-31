@@ -158,61 +158,73 @@
   </div>
 
   <script>
-    // kirim ucapan
-    document.getElementById('supportForm').addEventListener('submit', async function(e){
-      e.preventDefault();
-      const f = new FormData(e.target);
-      const data = Object.fromEntries(f.entries());
-      const msg = document.getElementById('msg');
-      msg.textContent = 'Mengirim...';
-      try {
-        const res = await fetch('https://wedding-story-nine.vercel.app/api/send-support', {
-          method: 'POST',
-          headers: {'Content-Type':'application/json'},
-          body: JSON.stringify(data)
-        });
-        const txt = await res.text();
-        if (res.ok) {
-          msg.textContent = '✅ Ucapanmu terkirim! Terima kasih ❤️';
-          e.target.reset();
-        } else {
-          msg.textContent = '⚠️ Error: ' + txt;
-        }
-      } catch (err) {
-        msg.textContent = '❌ Koneksi gagal: ' + err.message;
-      }
+document.getElementById('supportForm').addEventListener('submit', async function(e){
+  e.preventDefault();
+  const f = new FormData(e.target);
+  const data = Object.fromEntries(f.entries());
+  const msg = document.getElementById('msg');
+  msg.textContent = 'Mengirim...';
+
+  try {
+    const res = await fetch('https://wedding-story-nine.vercel.app/api/send-support', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(data)
     });
 
-    // volume musik
-    window.addEventListener('load', ()=>{
-      const a = document.getElementById('bgAudio');
-      if(a) a.volume = 0.35;
-    });
+    const txt = await res.text();
+    if (res.ok) {
+      msg.textContent = '✅ Ucapanmu terkirim! Terima kasih ❤️';
+      e.target.reset();
 
-    // lightbox gallery
-    const galleryImgs = document.querySelectorAll('.gallery img');
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = document.getElementById('lightboxImg');
-    const closeBtn = document.getElementById('closeLightbox');
+      // === Popup ucapan terima kasih ===
+      const modal = document.createElement('div');
+      modal.innerHTML = `
+        <div id="thanksModal" style="
+          position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+          background:rgba(0,0,0,0.6);z-index:9999;">
+          <div style="
+            background:#fff;padding:24px 18px;border-radius:14px;max-width:320px;text-align:center;
+            box-shadow:0 8px 30px rgba(0,0,0,0.2);animation:popIn .3s ease;">
+            <h3>💖 Terima kasih, ${data.name || 'Sahabat'}!</h3>
+            <p>Doa dan dukunganmu sudah terkirim.</p>
+            <p><b>Kalau mau kasih support via DANA:</b><br>
+            <span style="font-size:18px;color:#0b6b61;font-weight:bold;">6285311969703</span></p>
+            <p>Atas nama: <b>Miftakhul Huda</b></p>
+            <button id="doneTransfer" style="
+              margin-top:10px;padding:10px 18px;background:#0b6b61;color:#fff;
+              border:none;border-radius:8px;cursor:pointer;">Saya Sudah Transfer 💸</button>
+          </div>
+        </div>
+        <style>@keyframes popIn{from{scale:.8;opacity:0}to{scale:1;opacity:1}}</style>
+      `;
+      document.body.appendChild(modal);
 
-    galleryImgs.forEach(img => {
-      img.addEventListener('click', () => {
-        lightbox.style.display = 'flex';
-        lightboxImg.src = img.src;
+      document.getElementById('doneTransfer').addEventListener('click', ()=>{
+        alert('Terima kasih atas dukungannya 💕 Semoga kebaikanmu dibalas berlipat!');
+        modal.remove();
       });
-    });
-    closeBtn.addEventListener('click', ()=> lightbox.style.display = 'none');
-    lightbox.addEventListener('click', e=>{
-      if(e.target===lightbox) lightbox.style.display='none';
-    });
 
-    // tombol share WhatsApp
-    const shareBtn = document.getElementById('shareBtn');
-    shareBtn.addEventListener('click', ()=>{
-      const url = encodeURIComponent(window.location.href);
-      const text = encodeURIComponent("💌 Yuk lihat kisah cinta kami di sini: ");
-      shareBtn.href = `https://wa.me/?text=${text}${url}`;
-    });
+    } else {
+      msg.textContent = '⚠️ Error: ' + txt;
+    }
+  } catch (err) {
+    msg.textContent = '❌ Koneksi gagal: ' + err.message;
+  }
+});
+
+window.addEventListener('load', ()=>{
+  const a = document.getElementById('bgAudio');
+  if (a) {
+    a.volume = 0.35;
+    // Auto-play handler
+    const playAudio = () => {
+      a.play().catch(()=>{});
+      document.body.removeEventListener('click', playAudio);
+    };
+    document.body.addEventListener('click', playAudio);
+  }
+});
   </script>
 </body>
     </html>
