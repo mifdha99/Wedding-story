@@ -1,28 +1,57 @@
 export default async function handler(req, res) {
-  if (req.method !== 'POST') return res.status(405).send('Method not allowed');
-
-  const { name, message, jumlah } = req.body;
-  const BOT_TOKEN = process.env.BOT_TOKEN;
-  const CHAT_ID = process.env.CHAT_ID;
-
-  if (!BOT_TOKEN || !CHAT_ID) {
-    return res.status(500).json({ error: 'Bot token/chat_id belum diatur di Environment' });
+  // Biar cuma bisa diakses via POST
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const text = `💌 *Support Baru dari Wedding Story Website!*\n\n👤 Nama: ${name}\n💬 Pesan: ${message}\n💰 Dukungan: Rp${jumlah || 0}\n\n#WeddingStory`;
+  // Ambil data dari .env (udah kamu isi di Vercel)
+  const { BOT_TOKEN, CHAT_ID } = process.env;
 
+  // Ambil data dari form (frontend)
+  const { name, message, amount } = req.body;
+
+  // Validasi data
+  if (!BOT_TOKEN || !CHAT_ID) {
+    return res.status(500).json({ error: 'BOT_TOKEN atau CHAT_ID belum diatur di Vercel' });
+  }
+
+  if (!name || !message) {
+    return res.status(400).json({ error: 'Nama dan pesan harus diisi.' });
+  }
+
+  // Format pesan yang dikirim ke Telegram
+  const text = `
+💌 *Support Baru dari Wedding Story Website!*
+
+👤 Nama: ${name}
+💬 Pesan: ${message}
+💰 Dukungan: Rp${amount || 0}
+
+#WeddingStory
+`;
+
+  // Kirim ke Telegram API
   try {
-    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+    const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         chat_id: CHAT_ID,
         text,
-        parse_mode: 'Markdown'
-      })
+        parse_mode: 'Markdown',
+      }),
     });
-    res.status(200).send('Terkirim ke Telegram');
+
+    const data = await response.json();
+
+    if (!data.ok) {
+      throw new Error(data.description);
+    }
+
+    // Kirim respon sukses ke frontend
+    res.status(200).json({ success: true, message: 'Terkirim ke Telegram!' });
   } catch (error) {
-    res.status(500).json({ error: 'Gagal mengirim ke Telegram', detail: error.message });
+    console.error('Gagal kirim ke Telegram:', error);
+    res.status(500).json({ error: 'Gagal mengirim ke Telegram.' });
   }
-}
+  }
