@@ -139,7 +139,7 @@
         </form>
 
         <hr style="margin:12px 0;border:none;border-top:1px dashed rgba(10,30,20,0.06)">
-        <div class="small">Kalau mau notifikasi masuk ke Telegram, nanti kita hubungkan backend-nya. Token bot & chat_id disimpan aman di server.</div>
+        <div class="small">PoweredBy:Mifdha99.</div>
       </aside>
     </main>
 
@@ -156,7 +156,6 @@
     <span id="closeLightbox">&times;</span>
     <img id="lightboxImg" src="" alt="">
   </div>
-
   <script>
 document.getElementById('supportForm').addEventListener('submit', async function(e){
   e.preventDefault();
@@ -173,6 +172,7 @@ document.getElementById('supportForm').addEventListener('submit', async function
     });
 
     const txt = await res.text();
+
     if (res.ok) {
       msg.textContent = '✅ Ucapanmu terkirim! Terima kasih ❤️';
       e.target.reset();
@@ -187,7 +187,7 @@ document.getElementById('supportForm').addEventListener('submit', async function
             background:#fff;padding:24px 18px;border-radius:14px;max-width:320px;text-align:center;
             box-shadow:0 8px 30px rgba(0,0,0,0.2);animation:popIn .3s ease;">
             <h3>💖 Terima kasih, ${data.name || 'Sahabat'}!</h3>
-            <p>Doa dan dukunganmu sudah terkirim.</p>
+            <p>Doa dan dukunganmu sudah terkirim ke kami.</p>
             <p><b>Kalau mau kasih support via DANA:</b><br>
             <span style="font-size:18px;color:#0b6b61;font-weight:bold;">6285311969703</span></p>
             <p>Atas nama: <b>Miftakhul Huda</b></p>
@@ -200,6 +200,7 @@ document.getElementById('supportForm').addEventListener('submit', async function
       `;
       document.body.appendChild(modal);
 
+      // === Tombol “Saya sudah transfer” ===
       document.getElementById('doneTransfer').addEventListener('click', ()=>{
         alert('Terima kasih atas dukungannya 💕 Semoga kebaikanmu dibalas berlipat!');
         modal.remove();
@@ -213,11 +214,12 @@ document.getElementById('supportForm').addEventListener('submit', async function
   }
 });
 
+// === Audio Handler ===
 window.addEventListener('load', ()=>{
   const a = document.getElementById('bgAudio');
   if (a) {
-    a.volume = 0.35;
-    // Auto-play handler
+    a.volume = 0.95;
+    // Auto-play workaround
     const playAudio = () => {
       a.play().catch(()=>{});
       document.body.removeEventListener('click', playAudio);
@@ -225,6 +227,7 @@ window.addEventListener('load', ()=>{
     document.body.addEventListener('click', playAudio);
   }
 });
-  </script>
+</script>
+  
 </body>
     </html>
