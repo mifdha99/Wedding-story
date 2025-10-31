@@ -1,0 +1,156 @@
+<!doctype html>
+
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Huda 💕 Lutfi — Wedding Story</title>
+  <style>
+    :root{
+      --bg1: #d9f7f0; /* soft green-blue */
+      --bg2: #e8f7ff; /* soft blue */
+      --accent: #0b6b61; /* darker turquoise */
+      --muted: #5b6b6f;
+      --card: rgba(255,255,255,0.9);
+      --glass: rgba(255,255,255,0.65);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;min-height:100vh;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      background: linear-gradient(135deg,var(--bg1),var(--bg2));
+      color: #123;
+      -webkit-font-smoothing:antialiased;
+      display:flex;align-items:center;justify-content:center;padding:32px;
+    }/* floral border using SVG corners */
+.frame{
+  width:100%;max-width:980px;background:var(--card);border-radius:18px;padding:28px;box-shadow:0 8px 30px rgba(15,40,50,0.12);position:relative;overflow:hidden;
+}
+.frame::before, .frame::after{
+  content:"";position:absolute;pointer-events:none;width:260px;height:260px;background-repeat:no-repeat;opacity:0.95;
+}
+.frame::before{left:-60px;top:-40px;background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="260" height="260" viewBox="0 0 200 200"><defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="%23b2f0e6"/><stop offset="1" stop-color="%23d7f8ff"/></linearGradient></defs><g fill="none" stroke="%230b6b61" stroke-width="2"><path d="M20 140 C40 120, 60 80, 100 80 C140 80, 160 120, 180 140" opacity="0.9"/></g><g fill="%23ff9aa2"><circle cx="30" cy="40" r="8"/><circle cx="70" cy="20" r="6"/><circle cx="120" cy="35" r="7"/></g></svg>');transform:rotate(-8deg)}
+.frame::after{right:-60px;bottom:-40px;background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="260" height="260" viewBox="0 0 200 200"><g fill="%23ffd6e0"><circle cx="30" cy="150" r="7"/><circle cx="70" cy="120" r="6"/><circle cx="120" cy="160" r="8"/></g><g fill="none" stroke="%230b6b61" stroke-width="2"><path d="M20 60 C40 80, 60 120, 100 120 C140 120, 160 80, 180 60" opacity="0.9"/></g></svg>');transform:rotate(12deg)}
+
+header{display:flex;gap:22px;align-items:center}
+.avatar{width:160px;height:160px;border-radius:14px;overflow:hidden;flex-shrink:0;border:6px solid rgba(255,255,255,0.7);box-shadow:0 6px 18px rgba(10,30,20,0.08);background:linear-gradient(180deg,rgba(255,255,255,0.5),transparent)}
+.avatar img{width:100%;height:100%;object-fit:cover;display:block}
+.hero-text{flex:1}
+.names{font-size:28px;font-weight:700;color:var(--accent);letter-spacing:0.2px}
+.subtitle{margin-top:6px;color:var(--muted)}
+.play-music{margin-top:12px}
+
+main{margin-top:22px;display:grid;grid-template-columns:1fr 360px;gap:22px}
+.card{background:var(--glass);padding:18px;border-radius:12px}
+
+.story{line-height:1.6}
+.timeline{display:flex;gap:10px;align-items:center;margin-top:12px}
+.tl-step{background:#fff;padding:8px 10px;border-radius:999px;box-shadow:0 4px 10px rgba(5,20,15,0.04);font-weight:600}
+
+.gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.gallery img{width:100%;height:140px;object-fit:cover;border-radius:10px}
+
+form{display:flex;flex-direction:column;gap:10px}
+input,textarea{padding:10px;border-radius:8px;border:1px solid rgba(15,40,40,0.08);font-size:14px}
+button{background:linear-gradient(90deg,var(--accent),#0d8b79);color:white;padding:10px;border-radius:10px;border:none;font-weight:700;cursor:pointer}
+.small{font-size:13px;color:var(--muted)}
+
+footer{margin-top:18px;text-align:center;color:var(--muted);font-size:13px}
+
+@media(max-width:900px){main{grid-template-columns:1fr} .avatar{width:120px;height:120px}}
+
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <header>
+      <div class="avatar">
+        <!-- Ganti 'images/cover.jpg' dengan file foto yang kamu upload -->
+        <img id="coverPhoto" src="images/cover.jpg" alt="Huda & Lutfi">
+      </div>
+      <div class="hero-text">
+        <div class="names">Huda 💕 Lutfi</div>
+        <div class="subtitle">Wedding Story — Our little forever begins here</div>
+        <div class="play-music">
+          <!-- Ganti src audio sesuai file kamu (audio/music.mp3) atau leave untuk nonaktif -->
+          <audio id="bgAudio" src="audio/music.mp3" controls autoplay loop preload="auto"></audio>
+          <div class="small">Tip: klik play jika browser memblok autoplay</div>
+        </div>
+      </div>
+    </header><main>
+  <section class="card story">
+    <h3 style="margin-top:0">This is our story</h3>
+    <p>Halo! Kami cuma mau bagi kabar baik: kami sudah resmi menikah. Di halaman ini, kalian bisa lihat sedikit cerita kami, foto-foto manis, dan mengirim doa atau support (kalau mau).</p>
+
+    <div class="timeline">
+      <div class="tl-step">Kenalan 💬</div>
+      <div class="tl-step">Serius 💍</div>
+      <div class="tl-step">Sah 🕊️</div>
+    </div>
+
+    <h4 style="margin-top:18px">Moment Gallery</h4>
+    <div class="gallery" id="gallery">
+      <!-- Ganti/unggah foto ke folder images/ lalu sesuaikan nama-nama file -->
+      <img src="images/photo1.jpg" alt="photo1">
+      <img src="images/photo2.jpg" alt="photo2">
+      <img src="images/photo3.jpg" alt="photo3">
+      <img src="images/photo4.jpg" alt="photo4">
+    </div>
+
+  </section>
+
+  <aside class="card">
+    <h4 style="margin-top:0">Kirim Doa & Support 💌</h4>
+    <form id="supportForm">
+      <input name="nama" type="text" placeholder="Nama" required>
+      <textarea name="ucapan" rows="4" placeholder="Tulis ucapan/ doa kamu..." required></textarea>
+      <input name="jumlah" type="number" placeholder="Nominal Support (opsional)">
+      <button type="submit">Kirim Doa 💌</button>
+      <div id="msg" class="small"></div>
+    </form>
+
+    <hr style="margin:12px 0;border:none;border-top:1px dashed rgba(10,30,20,0.06)">
+    <div class="small">Kalau mau notifikasi masuk ke Telegram, nanti kita hubungkan backend-nya. Token bot & chat_id disimpan aman di server.</div>
+  </aside>
+</main>
+
+<footer>Thanks for being part of our story 💕</footer>
+
+  </div>  <script>
+    // Simple form submit: kirim ke endpoint /send-support (belum disediakan)
+    document.getElementById('supportForm').addEventListener('submit', async function(e){
+      e.preventDefault();
+      const f = new FormData(e.target);
+      const data = Object.fromEntries(f.entries());
+      document.getElementById('msg').textContent = 'Mengirim...';
+
+      try{
+        // Ganti URL di bawah dengan endpoint backendmu (contoh: https://api.kamu.app/send-support)
+        const res = await fetch('/send-support', {
+          method: 'POST',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify(data)
+        });
+
+        if(res.ok){
+          document.getElementById('msg').textContent = 'Terima kasih! Ucapanmu sudah terkirim ❤️';
+          e.target.reset();
+        } else {
+          const txt = await res.text();
+          throw new Error(txt || 'Gagal mengirim');
+        }
+      } catch(err){
+        console.error(err);
+        document.getElementById('msg').textContent = 'Gagal mengirim — coba lagi nanti.';
+      }
+    });
+
+    // Fallback: jika browser blok autoplay, tunjukkan petunjuk
+    window.addEventListener('load', ()=>{
+      const a = document.getElementById('bgAudio');
+      a.volume = 0.35;
+      // jika user meng-upload foto lewat dialog, bisa dipasang di sini — helper:
+      window.replaceCover = (url) => document.getElementById('coverPhoto').src = url;
+    });
+  </script></body>
+  </html>
