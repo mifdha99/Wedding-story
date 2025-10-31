@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Huda 💕 Lutfi — Wedding Story</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="frame">
+    <header>
+      <div class="avatar">
+        <img id="coverPhoto" src="images/cover.jpg" alt="Huda & Lutfi">
+      </div>
+      <div class="hero-text">
+        <div class="names">Huda 💕 Lutfi</div>
+        <div class="subtitle">Wedding Story — Our little forever begins here</div>
+        <div class="play-music">
+          <audio id="bgAudio" src="audio/music.mp3" controls autoplay loop preload="auto"></audio>
+          <div class="small">Tip: klik play jika browser memblok autoplay</div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="card story">
+        <h3>This is our story</h3>
+        <p>Halo! Kami cuma mau bagi kabar baik: kami sudah resmi menikah 💕  
+        Di halaman ini, kalian bisa lihat sedikit cerita kami, foto-foto manis, dan mengirim doa atau support (kalau mau).</p>
+
+        <div class="timeline">
+          <div class="tl-step">Kenalan 💬</div>
+          <div class="tl-step">Serius 💍</div>
+          <div class="tl-step">Sah 🕊️</div>
+        </div>
+
+        <h4>Moment Gallery</h4>
+        <div class="gallery" id="gallery">
+          <img src="images/photo1.jpg" alt="photo1">
+          <img src="images/photo2.jpg" alt="photo2">
+          <img src="images/photo3.jpg" alt="photo3">
+          <img src="images/photo4.jpg" alt="photo4">
+        </div>
+      </section>
+
+      <aside class="card">
+        <h4>Kirim Doa & Support 💌</h4>
+        <form id="supportForm">
+          <input name="name" type="text" placeholder="Nama" required>
+          <textarea name="message" rows="4" placeholder="Tulis ucapan/ doa kamu..." required></textarea>
+          <input name="jumlah" type="number" placeholder="Nominal Support (opsional)">
+          <button type="submit">Kirim Doa 💌</button>
+          <div id="msg" class="small"></div>
+        </form>
+
+        <hr />
+        <div class="small">
+          Kirim dukungan langsung ke <b>DANA: 6285311969703</b>  
+          Setelah transfer, ucapan terima kasih otomatis muncul di layar 🥰
+        </div>
+      </aside>
+    </main>
+
+    <footer>
+      Thanks for being part of our story 💕
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+          </html>
