@@ -17,7 +17,7 @@ document.getElementById('supportForm').addEventListener('submit', async function
       msg.textContent = '✅ Ucapanmu terkirim! Terima kasih ❤️';
       e.target.reset();
 
-      // Tampilkan ucapan terima kasih setelah "donasi"
+      // Munculkan ucapan terima kasih jika ada nominal
       if (data.jumlah && parseInt(data.jumlah) > 0) {
         showThankYouModal(data.name, data.jumlah);
       }
@@ -48,8 +48,8 @@ galleryImages.forEach(img => {
   });
 });
 
-// Share WhatsApp
-const footer = document.querySelector('footer');
+// Share WhatsApp di bawah form
+const qrdanaDiv = document.getElementById('qrdana');
 const shareBtn = document.createElement('button');
 shareBtn.textContent = '📤 Bagikan ke WhatsApp';
 shareBtn.classList.add('share-btn');
@@ -58,7 +58,23 @@ shareBtn.onclick = () => {
   const text = encodeURIComponent("Yuk lihat Wedding Story Huda 💕 Lutfi!");
   window.open(`https://wa.me/?text=${text}%20${url}`, '_blank');
 };
-footer.appendChild(shareBtn);
+qrdanaDiv.after(shareBtn);
+
+// Generate QR DANA otomatis
+const nomorDANA = '6285311969708';
+const qrImg = document.createElement('img');
+qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://link.dana.id/qr/${nomorDANA}`;
+qrImg.alt = 'QR DANA';
+qrImg.style.display = 'block';
+qrImg.style.margin = '16px auto';
+qrdanaDiv.appendChild(qrImg);
+
+const danaLabel = document.createElement('div');
+danaLabel.textContent = `Scan untuk dukung via DANA (${nomorDANA})`;
+danaLabel.style.textAlign = 'center';
+danaLabel.style.fontSize = '14px';
+danaLabel.style.marginTop = '6px';
+qrdanaDiv.appendChild(danaLabel);
 
 // Modal ucapan terima kasih
 function showThankYouModal(name, jumlah) {
@@ -72,4 +88,4 @@ function showThankYouModal(name, jumlah) {
       <button onclick="this.closest('.thankyou-modal').remove()">Tutup</button>
     </div>`;
   document.body.appendChild(modal);
-                       }
+                          }
