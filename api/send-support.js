@@ -1,38 +1,31 @@
-// File: api/send-support.js
-import fetch from "node-fetch";
-
 export default async function handler(req, res) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ message: "Method not allowed" });
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { nama, ucapan, jumlah } = req.body;
+  const { BOT_TOKEN, CHAT_ID } = process.env;
+  const { name, message, amount } = req.body;
 
-  const TOKEN = process.env.BOT_TOKEN; // dari .env
-  const CHAT_ID = process.env.CHAT_ID; // dari .env
+  if (!BOT_TOKEN || !CHAT_ID) {
+    return res.status(500).json({ error: 'Missing bot token or chat ID' });
+  }
 
-  const text = `
-💌 *Ucapan Baru Masuk!* 
-👤 Dari: ${nama}
-📝 Pesan: ${ucapan}
-💰 Support: ${jumlah ? "Rp" + jumlah : "—"}
-`;
+  const text = `💌 *Support baru dari website Wedding Story*\n\n👤 Nama: ${name}\n💬 Pesan: ${message}\n💰 Dukungan: Rp${amount}`;
+  const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
 
   try {
-    const telegramURL = `https://api.telegram.org/bot${TOKEN}/sendMessage`;
-    await fetch(telegramURL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        chat_id: CHAT_ID,
-        text,
-        parse_mode: "Markdown",
-      }),
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: CHAT_ID, text, parse_mode: 'Markdown' }),
     });
 
-    res.status(200).json({ message: "Terkirim ke Telegram!" });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Gagal mengirim ke Telegram" });
+    const data = await response.json();
+    if (!data.ok) throw new Error(data.description);
+
+    res.status(200).json({ success: true });
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ error: 'Gagal mengirim ke Telegram.' });
   }
-}
+                                 }
