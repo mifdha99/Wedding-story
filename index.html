@@ -116,41 +116,38 @@ footer{margin-top:18px;text-align:center;color:var(--muted);font-size:13px}
 
 <footer>Thanks for being part of our story 💕</footer>
 
-  </div>  <script>
-    // Simple form submit: kirim ke endpoint /send-support (belum disediakan)
-    document.getElementById('supportForm').addEventListener('submit', async function(e){
-      e.preventDefault();
-      const f = new FormData(e.target);
-      const data = Object.fromEntries(f.entries());
-      document.getElementById('msg').textContent = 'Mengirim...';
+  </div> 
+<script>
+  document.getElementById('supportForm').addEventListener('submit', async function(e){
+    e.preventDefault();
+    const f = new FormData(e.target);
+    const data = Object.fromEntries(f.entries());
+    const msg = document.getElementById('msg');
+    msg.textContent = 'Mengirim...';
 
-      try{
-        // Ganti URL di bawah dengan endpoint backendmu (contoh: https://api.kamu.app/send-support)
-        const res = await fetch('https://wedding-story-nine.vercel.app/api/send-support', {
-          method: 'POST',
-          headers: {'Content-Type':'application/json'},
-          body: JSON.stringify(data)
-        });
+    try {
+      const res = await fetch('https://wedding-story-nine.vercel.app/api/send-support', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify(data)
+      });
 
-        if(res.ok){
-          document.getElementById('msg').textContent = 'Terima kasih! Ucapanmu sudah terkirim ❤️';
-          e.target.reset();
-        } else {
-          const txt = await res.text();
-          throw new Error(txt || 'Gagal mengirim');
-        }
-      } catch(err){
-        console.error(err);
-        document.getElementById('msg').textContent = 'Gagal mengirim — coba lagi nanti.';
+      const txt = await res.text(); // ambil teks response
+      if (res.ok) {
+        msg.textContent = '✅ Ucapanmu terkirim! Terima kasih ❤️';
+        e.target.reset();
+      } else {
+        msg.textContent = '⚠️ Error: ' + txt; // tampilkan isi error
       }
-    });
+    } catch (err) {
+      msg.textContent = '❌ Koneksi gagal: ' + err.message;
+    }
+  });
 
-    // Fallback: jika browser blok autoplay, tunjukkan petunjuk
-    window.addEventListener('load', ()=>{
-      const a = document.getElementById('bgAudio');
-      a.volume = 0.35;
-      // jika user meng-upload foto lewat dialog, bisa dipasang di sini — helper:
-      window.replaceCover = (url) => document.getElementById('coverPhoto').src = url;
-    });
-  </script></body>
+  window.addEventListener('load', ()=>{
+    const a = document.getElementById('bgAudio');
+    a.volume = 0.35;
+  });
+</script>
+</body>
   </html>
