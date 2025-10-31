@@ -126,7 +126,7 @@ footer{margin-top:18px;text-align:center;color:var(--muted);font-size:13px}
 
       try{
         // Ganti URL di bawah dengan endpoint backendmu (contoh: https://api.kamu.app/send-support)
-        const res = await fetch('/send-support', {
+        const res = await fetch('https://wedding-story-nine.vercel.app/api/send-support', {
           method: 'POST',
           headers: {'Content-Type':'application/json'},
           body: JSON.stringify(data)
