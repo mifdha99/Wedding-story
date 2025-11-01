@@ -228,6 +228,27 @@ window.addEventListener('load', ()=>{
   }
 });
 </script>
+  <script>
+document.getElementById('supportForm').addEventListener('submit', function(e){
+  e.preventDefault();
+
+  const nama = encodeURIComponent(e.target.nama.value);
+  const ucapan = encodeURIComponent(e.target.ucapan.value);
+  const jumlah = encodeURIComponent(e.target.jumlah.value);
+
+  // Nomor WA kamu
+  const nomorTujuan = "6285311969703";
+
+  // Format pesan otomatis
+  const pesan = `💌 *Wedding Story Huda 💕 Lutfi*\n\nDari: ${nama}\nUcapan: ${ucapan}\nNominal: Rp${jumlah || '-'}\n\nTerima kasih sudah ikut berbagi kebahagiaan 💕`;
+
+  // Buat link WA-nya
+  const waLink = `https://wa.me/${nomorTujuan}?text=${pesan}`;
+
+  // Arahkan ke WhatsApp
+  window.open(waLink, '_blank');
+});
+</script>
   
 </body>
     </html>
