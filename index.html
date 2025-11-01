@@ -156,70 +156,65 @@
     <span id="closeLightbox">&times;</span>
     <img id="lightboxImg" src="" alt="">
   </div>
+    
   <script>
-document.getElementById('supportForm').addEventListener('submit', async function(e){
+document.getElementById('supportForm').addEventListener('submit', function(e){
   e.preventDefault();
-  const f = new FormData(e.target);
-  const data = Object.fromEntries(f.entries());
-  const msg = document.getElementById('msg');
-  msg.textContent = 'Mengirim...';
 
-  try {
-    const res = await fetch('https://wedding-story-nine.vercel.app/api/send-support', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify(data)
-    });
+  const nama = encodeURIComponent(e.target.name.value);
+  const ucapan = encodeURIComponent(e.target.message.value);
+  const jumlah = encodeURIComponent(e.target.jumlah.value || '-');
 
-    const txt = await res.text();
+  // Nomor WhatsApp tujuan
+  const nomorWA = "6285691567992";
+  // Nomor DANA
+  const nomorDANA = "6285311969703";
 
-    if (res.ok) {
-      msg.textContent = '✅ Ucapanmu terkirim! Terima kasih ❤️';
-      e.target.reset();
+  // Format pesan untuk WhatsApp
+  const pesan = `💌 *Wedding Story Huda 💕 Lutfi*\n\n👤 Dari: ${decodeURIComponent(nama)}\n💬 Ucapan: ${decodeURIComponent(ucapan)}\n💰 Nominal: Rp${decodeURIComponent(jumlah)}\n\nTerima kasih sudah ikut berbagi kebahagiaan 💕`;
 
-      // === Popup ucapan terima kasih ===
-      const modal = document.createElement('div');
-      modal.innerHTML = `
-        <div id="thanksModal" style="
-          position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
-          background:rgba(0,0,0,0.6);z-index:9999;">
-          <div style="
-            background:#fff;padding:24px 18px;border-radius:14px;max-width:320px;text-align:center;
-            box-shadow:0 8px 30px rgba(0,0,0,0.2);animation:popIn .3s ease;">
-            <h3>💖 Terima kasih, ${data.name || 'Sahabat'}!</h3>
-            <p>Doa dan dukunganmu sudah terkirim ke kami.</p>
-            <p><b>Kalau mau kasih support via DANA:</b><br>
-            <span style="font-size:18px;color:#0b6b61;font-weight:bold;">6285311969703</span></p>
-            <p>Atas nama: <b>Miftakhul Huda</b></p>
-            <button id="doneTransfer" style="
-              margin-top:10px;padding:10px 18px;background:#0b6b61;color:#fff;
-              border:none;border-radius:8px;cursor:pointer;">Saya Sudah Transfer 💸</button>
-          </div>
-        </div>
-        <style>@keyframes popIn{from{scale:.8;opacity:0}to{scale:1;opacity:1}}</style>
-      `;
-      document.body.appendChild(modal);
+  // Buka WhatsApp
+  const waLink = `https://wa.me/${nomorWA}?text=${encodeURIComponent(pesan)}`;
+  window.location.href = waLink;
 
-      // === Tombol “Saya sudah transfer” ===
-      document.getElementById('doneTransfer').addEventListener('click', ()=>{
-        alert('Terima kasih atas dukungannya 💕 Semoga kebaikanmu dibalas berlipat!');
-        modal.remove();
-      });
+  // Tampilkan popup “Terima Kasih”
+  const modal = document.createElement('div');
+  modal.innerHTML = `
+    <div id="thanksModal" style="
+      position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+      background:rgba(0,0,0,0.6);z-index:9999;">
+      <div style="
+        background:#fff;padding:24px 18px;border-radius:14px;max-width:340px;text-align:center;
+        box-shadow:0 8px 30px rgba(0,0,0,0.2);animation:popIn .3s ease;">
+        <h3>💖 Terima kasih, ${decodeURIComponent(nama) || 'Sahabat'}!</h3>
+        <p>Doa dan dukunganmu sudah terkirim lewat WhatsApp 💌</p>
+        <p><b>Kalau mau kasih support via DANA:</b><br>
+        <span style="font-size:18px;color:#0b6b61;font-weight:bold;">${nomorDANA}</span></p>
+        <img src="https://quickchart.io/qr?text=${encodeURIComponent(nomorDANA)}&size=160" 
+             alt="QR DANA" style="margin:10px auto;display:block;border-radius:8px;border:2px solid #0b6b61;">
+        <p>Atas nama: <b>Miftakhul Huda</b></p>
+        <button id="doneTransfer" style="
+          margin-top:10px;padding:10px 18px;background:#0b6b61;color:#fff;
+          border:none;border-radius:8px;cursor:pointer;">Tutup 💸</button>
+      </div>
+    </div>
+    <style>@keyframes popIn{from{scale:.8;opacity:0}to{scale:1;opacity:1}}</style>
+  `;
+  document.body.appendChild(modal);
 
-    } else {
-      msg.textContent = '⚠️ Error: ' + txt;
-    }
-  } catch (err) {
-    msg.textContent = '❌ Koneksi gagal: ' + err.message;
-  }
+  // Tutup popup
+  document.getElementById('doneTransfer').addEventListener('click', ()=>{
+    modal.remove();
+  });
+
+  e.target.reset();
 });
 
-// === Audio Handler ===
+// === Audio handler ===
 window.addEventListener('load', ()=>{
   const a = document.getElementById('bgAudio');
   if (a) {
-    a.volume = 0.95;
-    // Auto-play workaround
+    a.volume = 0.8;
     const playAudio = () => {
       a.play().catch(()=>{});
       document.body.removeEventListener('click', playAudio);
@@ -228,27 +223,5 @@ window.addEventListener('load', ()=>{
   }
 });
 </script>
-  <script>
-document.getElementById('supportForm').addEventListener('submit', function(e){
-  e.preventDefault();
-
-  const nama = encodeURIComponent(e.target.nama.value);
-  const ucapan = encodeURIComponent(e.target.ucapan.value);
-  const jumlah = encodeURIComponent(e.target.jumlah.value);
-
-  // Nomor WA kamu
-  const nomorTujuan = "+6285691567992";
-
-  // Format pesan otomatis
-  const pesan = `💌 *Wedding Story Huda 💕 Lutfi*\n\nDari: ${nama}\nUcapan: ${ucapan}\nNominal: Rp${jumlah || '-'}\n\nTerima kasih sudah ikut berbagi kebahagiaan 💕`;
-
-  // Buat link WA-nya
-  const waLink = `https://wa.me/${nomorTujuan}?text=${pesan}`;
-
-  // Arahkan ke WhatsApp
-  window.open(waLink, '_blank');
-});
-</script>
-  
 </body>
     </html>
